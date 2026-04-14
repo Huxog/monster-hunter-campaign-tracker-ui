@@ -5,6 +5,7 @@ const button = tv({
   variants: {
     variant: {
       primary: 'bg-gold text-background hover:bg-gold-light',
+      secondary: 'bg-background text-cream hover:bg-surface',
       ghost: 'text-gold hover:bg-surface-alt',
       danger: 'bg-ember text-cream hover:bg-ember/80',
     },

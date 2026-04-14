@@ -2,8 +2,8 @@ import { tv } from 'tailwind-variants';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from '@tanstack/react-router';
-import { loginSchema, type LoginInput } from '../schemas';
-import { useLogin } from '../api';
+import { registerSchema, type RegisterInput } from '../schemas';
+import { useRegister } from '../api';
 import { Field, Input, type FieldTheme } from '../../../shared/components/Field';
 import { Button } from '../../../shared/components/Button';
 import { ApiError } from '../../../shared/lib/apiClient';
@@ -19,37 +19,51 @@ const forgotLink = tv({
   defaultVariants: { theme: 'dark' },
 });
 
-export interface LoginFormProps {
+export interface RegisterFormProps {
   theme?: FieldTheme;
 }
 
-export function LoginForm({ theme = 'dark' }: LoginFormProps) {
+export function RegisterForm({ theme = 'dark' }: RegisterFormProps) {
   const navigate = useNavigate();
-  const login = useLogin();
+  const register = useRegister();
 
   const {
-    register,
+    register: bindField,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginInput>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<RegisterInput>({
+    resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = (data: LoginInput) => {
-    login.mutate(data, {
+  const onSubmit = (data: RegisterInput) => {
+    register.mutate(data, {
       onSuccess: () => void navigate({ to: '/dashboard' }),
     });
   };
 
   const serverError =
-    login.error instanceof ApiError ? login.error.message : null;
+    register.error instanceof ApiError ? register.error.message : null;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-5">
+      <Field label="Name" error={errors.name?.message} theme={theme}>
+        {(id, hasError, t) => (
+          <Input
+            {...bindField('name')}
+            id={id}
+            type="text"
+            autoComplete="name"
+            placeholder="Your hunter name"
+            hasError={hasError}
+            theme={t}
+          />
+        )}
+      </Field>
+
       <Field label="Email" error={errors.email?.message} theme={theme}>
         {(id, hasError, t) => (
           <Input
-            {...register('email')}
+            {...bindField('email')}
             id={id}
             type="email"
             autoComplete="email"
@@ -63,11 +77,11 @@ export function LoginForm({ theme = 'dark' }: LoginFormProps) {
       <Field label="Password" error={errors.password?.message} theme={theme}>
         {(id, hasError, t) => (
           <Input
-            {...register('password')}
+            {...bindField('password')}
             id={id}
             type="password"
-            autoComplete="current-password"
-            placeholder="••••••••"
+            autoComplete="new-password"
+            placeholder="••••••••••"
             hasError={hasError}
             theme={t}
           />
@@ -84,17 +98,11 @@ export function LoginForm({ theme = 'dark' }: LoginFormProps) {
         type="submit"
         variant={theme === 'light' ? 'secondary' : 'primary'}
         fullWidth
-        loading={login.isPending}
+        loading={register.isPending}
         className="mt-1"
       >
-        Sign In
+        Create Account
       </Button>
-
-      <p className="text-center">
-        <a href="#" className={forgotLink({ theme })}>
-          Forgot password?
-        </a>
-      </p>
     </form>
   );
 }

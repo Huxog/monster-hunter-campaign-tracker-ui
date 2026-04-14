@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { User } from './types';
+import { AUTH_STORE_KEY } from '../../shared/lib/brand';
 
 interface AuthState {
   token: string | null;
@@ -18,7 +19,7 @@ export const useAuthStore = create<AuthState>()(
       clearAuth: () => set({ token: null, user: null }),
     }),
     {
-      name: 'mh-auth',
+      name: AUTH_STORE_KEY,
       // Only persist token and user — actions are recreated on hydration.
       partialize: (state) => ({ token: state.token, user: state.user }),
     },

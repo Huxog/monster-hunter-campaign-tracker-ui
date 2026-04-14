@@ -41,7 +41,10 @@ export function useRegister() {
 
   return useMutation({
     mutationFn: (input: RegisterInput) =>
-      apiClient.post<AuthResponse>('/auth/register', input),
+      apiClient.post<AuthResponse>('/auth/register', {
+        ...input,
+        password_confirmation: input.password,
+      }),
     onSuccess: ({ data, token }) => {
       setAuth(token, data);
       void queryClient.invalidateQueries({ queryKey: authKeys.me });
