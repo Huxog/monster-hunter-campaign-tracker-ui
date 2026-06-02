@@ -24,10 +24,7 @@ export const equipmentCreateSchema = z.object({
       dragon: resistanceValue,
     })
     .optional(),
-  imagePath: z.preprocess(
-    (v) => (v === '' ? undefined : v),
-    z.string().url('Must be a valid URL').optional(),
-  ),
+  imagePath: z.string().url('Must be a valid URL').optional(),
   materials: z.array(recipeEntrySchema).optional(),
 });
 

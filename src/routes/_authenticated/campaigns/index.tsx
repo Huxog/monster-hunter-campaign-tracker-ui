@@ -28,7 +28,6 @@ function CampaignsPage() {
   const { mapId, page = 1 } = Route.useSearch();
   const navigate = Route.useNavigate();
   const { user } = useAuthStore();
-  const isAdmin = user?.roles.includes('admin') ?? false;
   const [showCreateForm, setShowCreateForm] = useState(false);
 
   const { data, isPending, isError } = useCampaigns({ mapId, page });

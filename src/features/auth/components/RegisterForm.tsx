@@ -8,17 +8,6 @@ import { Field, Input, type FieldTheme } from '../../../shared/components/Field'
 import { Button } from '../../../shared/components/Button';
 import { ApiError } from '../../../shared/lib/apiClient';
 
-const forgotLink = tv({
-  base: 'text-sm transition-colors',
-  variants: {
-    theme: {
-      dark: 'text-muted hover:text-cream',
-      light: 'text-muted hover:text-cream',
-    },
-  },
-  defaultVariants: { theme: 'dark' },
-});
-
 export interface RegisterFormProps {
   theme?: FieldTheme;
 }

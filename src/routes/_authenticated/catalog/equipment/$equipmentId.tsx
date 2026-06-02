@@ -13,13 +13,13 @@ import {
   equipmentUpdateSchema,
   type EquipmentUpdateInput,
 } from '../../../../features/equipment/schemas';
-import { EQUIPMENT_TYPES, type Equipment } from '../../../../features/equipment/types';
+import { type Equipment } from '../../../../features/equipment/types';
 import { WEAPON_CLASSES } from '../../../../features/weapons/types';
 import { useAuthStore } from '../../../../features/auth/store';
 import { Button } from '../../../../shared/components/Button';
 import { ConfirmDialog } from '../../../../shared/components/ConfirmDialog';
 import { Badge } from '../../../../shared/components/Badge';
-import { Field, Input, Select } from '../../../../shared/components/Field';
+import { Field, Input } from '../../../../shared/components/Field';
 import { ElementIcon } from '../../../../shared/components/ElementIcon';
 import { WeaponClassIcon } from '../../../../shared/components/WeaponClassIcon';
 import { ApiError } from '../../../../shared/lib/apiClient';
@@ -38,7 +38,6 @@ const RESISTANCE_ELEMENTS = [
   'water',
   'dragon',
 ] as const;
-type ResistanceElement = (typeof RESISTANCE_ELEMENTS)[number];
 
 function EquipmentDetailPage() {
   const { equipmentId } = Route.useParams();
