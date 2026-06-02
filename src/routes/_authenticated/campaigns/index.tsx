@@ -6,7 +6,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useCampaigns, useCreateCampaign } from '../../../features/campaigns/api';
 import { campaignCreateSchema, type CampaignCreateInput } from '../../../features/campaigns/schemas';
 import { useMaps } from '../../../features/maps/api';
-import { useAuthStore } from '../../../features/auth/store';
 import { CampaignCard } from '../../../features/campaigns/components/CampaignCard';
 import { Button } from '../../../shared/components/Button';
 import { Field, Input, Select } from '../../../shared/components/Field';
@@ -27,7 +26,6 @@ export const Route = createFileRoute('/_authenticated/campaigns/')({
 function CampaignsPage() {
   const { mapId, page = 1 } = Route.useSearch();
   const navigate = Route.useNavigate();
-  const { user } = useAuthStore();
   const [showCreateForm, setShowCreateForm] = useState(false);
 
   const { data, isPending, isError } = useCampaigns({ mapId, page });

@@ -454,7 +454,7 @@ function CreateEquipmentForm({
 // ─── Filter chip ──────────────────────────────────────────────────────────────
 
 interface FilterChipProps {
-  label: string;
+  label: React.ReactNode;
   active: boolean;
   onClick: () => void;
 }
