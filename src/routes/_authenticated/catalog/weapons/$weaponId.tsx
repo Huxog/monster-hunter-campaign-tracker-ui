@@ -22,7 +22,7 @@ import { useAuthStore } from '../../../../features/auth/store';
 import { Button } from '../../../../shared/components/Button';
 import { ConfirmDialog } from '../../../../shared/components/ConfirmDialog';
 import { Badge } from '../../../../shared/components/Badge';
-import { Field, Input, Select } from '../../../../shared/components/Field';
+import { Field, Input } from '../../../../shared/components/Field';
 import { ElementIcon } from '../../../../shared/components/ElementIcon';
 import { WeaponClassIcon } from '../../../../shared/components/WeaponClassIcon';
 import { ApiError } from '../../../../shared/lib/apiClient';

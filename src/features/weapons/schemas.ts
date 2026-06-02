@@ -18,10 +18,7 @@ export const weaponCreateSchema = z.object({
       z.number().int().min(0, 'Must be 0 or more'),
     ])
     .optional(),
-  imagePath: z.preprocess(
-    (v) => (v === '' ? undefined : v),
-    z.string().url('Must be a valid URL').optional(),
-  ),
+  imagePath: z.string().url('Must be a valid URL').optional(),
   materials: z.array(recipeEntrySchema).optional(),
 });
 
