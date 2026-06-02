@@ -13,7 +13,7 @@ const forgotLink = tv({
   variants: {
     theme: {
       dark: 'text-muted hover:text-cream',
-      light: 'text-gray-500 hover:text-gray-700',
+      light: 'text-muted hover:text-cream',
     },
   },
   defaultVariants: { theme: 'dark' },
