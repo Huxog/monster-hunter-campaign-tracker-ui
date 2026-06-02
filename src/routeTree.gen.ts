@@ -13,7 +13,25 @@ import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedQuestsIndexRouteImport } from './routes/_authenticated/quests/index'
+import { Route as AuthenticatedMapsIndexRouteImport } from './routes/_authenticated/maps/index'
+import { Route as AuthenticatedHuntersIndexRouteImport } from './routes/_authenticated/hunters/index'
+import { Route as AuthenticatedCampaignsIndexRouteImport } from './routes/_authenticated/campaigns/index'
+import { Route as AuthenticatedMapsMapIdRouteImport } from './routes/_authenticated/maps/$mapId'
+import { Route as AuthenticatedHuntersHunterIdRouteImport } from './routes/_authenticated/hunters/$hunterId'
+import { Route as AuthenticatedCampaignsCampaignIdRouteImport } from './routes/_authenticated/campaigns/$campaignId'
+import { Route as AuthenticatedCatalogWeaponsIndexRouteImport } from './routes/_authenticated/catalog/weapons/index'
+import { Route as AuthenticatedCatalogMonstersIndexRouteImport } from './routes/_authenticated/catalog/monsters/index'
+import { Route as AuthenticatedCatalogMaterialsIndexRouteImport } from './routes/_authenticated/catalog/materials/index'
+import { Route as AuthenticatedCatalogEquipmentIndexRouteImport } from './routes/_authenticated/catalog/equipment/index'
+import { Route as AuthenticatedCampaignsCampaignIdIndexRouteImport } from './routes/_authenticated/campaigns/$campaignId/index'
+import { Route as AuthenticatedCatalogWeaponsWeaponIdRouteImport } from './routes/_authenticated/catalog/weapons/$weaponId'
+import { Route as AuthenticatedCatalogMonstersMonsterIdRouteImport } from './routes/_authenticated/catalog/monsters/$monsterId'
+import { Route as AuthenticatedCatalogMaterialsMaterialIdRouteImport } from './routes/_authenticated/catalog/materials/$materialId'
+import { Route as AuthenticatedCatalogEquipmentEquipmentIdRouteImport } from './routes/_authenticated/catalog/equipment/$equipmentId'
+import { Route as AuthenticatedCampaignsCampaignIdQuestsQuestIdRouteImport } from './routes/_authenticated/campaigns/$campaignId/quests/$questId'
 
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
@@ -34,23 +52,163 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/auth/callback',
+  path: '/auth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedQuestsIndexRoute =
+  AuthenticatedQuestsIndexRouteImport.update({
+    id: '/quests/',
+    path: '/quests/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedMapsIndexRoute = AuthenticatedMapsIndexRouteImport.update({
+  id: '/maps/',
+  path: '/maps/',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedHuntersIndexRoute =
+  AuthenticatedHuntersIndexRouteImport.update({
+    id: '/hunters/',
+    path: '/hunters/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedCampaignsIndexRoute =
+  AuthenticatedCampaignsIndexRouteImport.update({
+    id: '/campaigns/',
+    path: '/campaigns/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedMapsMapIdRoute = AuthenticatedMapsMapIdRouteImport.update({
+  id: '/maps/$mapId',
+  path: '/maps/$mapId',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedHuntersHunterIdRoute =
+  AuthenticatedHuntersHunterIdRouteImport.update({
+    id: '/hunters/$hunterId',
+    path: '/hunters/$hunterId',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedCampaignsCampaignIdRoute =
+  AuthenticatedCampaignsCampaignIdRouteImport.update({
+    id: '/campaigns/$campaignId',
+    path: '/campaigns/$campaignId',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedCatalogWeaponsIndexRoute =
+  AuthenticatedCatalogWeaponsIndexRouteImport.update({
+    id: '/catalog/weapons/',
+    path: '/catalog/weapons/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedCatalogMonstersIndexRoute =
+  AuthenticatedCatalogMonstersIndexRouteImport.update({
+    id: '/catalog/monsters/',
+    path: '/catalog/monsters/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedCatalogMaterialsIndexRoute =
+  AuthenticatedCatalogMaterialsIndexRouteImport.update({
+    id: '/catalog/materials/',
+    path: '/catalog/materials/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedCatalogEquipmentIndexRoute =
+  AuthenticatedCatalogEquipmentIndexRouteImport.update({
+    id: '/catalog/equipment/',
+    path: '/catalog/equipment/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedCampaignsCampaignIdIndexRoute =
+  AuthenticatedCampaignsCampaignIdIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedCampaignsCampaignIdRoute,
+  } as any)
+const AuthenticatedCatalogWeaponsWeaponIdRoute =
+  AuthenticatedCatalogWeaponsWeaponIdRouteImport.update({
+    id: '/catalog/weapons/$weaponId',
+    path: '/catalog/weapons/$weaponId',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedCatalogMonstersMonsterIdRoute =
+  AuthenticatedCatalogMonstersMonsterIdRouteImport.update({
+    id: '/catalog/monsters/$monsterId',
+    path: '/catalog/monsters/$monsterId',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedCatalogMaterialsMaterialIdRoute =
+  AuthenticatedCatalogMaterialsMaterialIdRouteImport.update({
+    id: '/catalog/materials/$materialId',
+    path: '/catalog/materials/$materialId',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedCatalogEquipmentEquipmentIdRoute =
+  AuthenticatedCatalogEquipmentEquipmentIdRouteImport.update({
+    id: '/catalog/equipment/$equipmentId',
+    path: '/catalog/equipment/$equipmentId',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedCampaignsCampaignIdQuestsQuestIdRoute =
+  AuthenticatedCampaignsCampaignIdQuestsQuestIdRouteImport.update({
+    id: '/quests/$questId',
+    path: '/quests/$questId',
+    getParentRoute: () => AuthenticatedCampaignsCampaignIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/auth/callback': typeof AuthCallbackRoute
+  '/campaigns/$campaignId': typeof AuthenticatedCampaignsCampaignIdRouteWithChildren
+  '/hunters/$hunterId': typeof AuthenticatedHuntersHunterIdRoute
+  '/maps/$mapId': typeof AuthenticatedMapsMapIdRoute
+  '/campaigns/': typeof AuthenticatedCampaignsIndexRoute
+  '/hunters/': typeof AuthenticatedHuntersIndexRoute
+  '/maps/': typeof AuthenticatedMapsIndexRoute
+  '/quests/': typeof AuthenticatedQuestsIndexRoute
+  '/catalog/equipment/$equipmentId': typeof AuthenticatedCatalogEquipmentEquipmentIdRoute
+  '/catalog/materials/$materialId': typeof AuthenticatedCatalogMaterialsMaterialIdRoute
+  '/catalog/monsters/$monsterId': typeof AuthenticatedCatalogMonstersMonsterIdRoute
+  '/catalog/weapons/$weaponId': typeof AuthenticatedCatalogWeaponsWeaponIdRoute
+  '/campaigns/$campaignId/': typeof AuthenticatedCampaignsCampaignIdIndexRoute
+  '/catalog/equipment/': typeof AuthenticatedCatalogEquipmentIndexRoute
+  '/catalog/materials/': typeof AuthenticatedCatalogMaterialsIndexRoute
+  '/catalog/monsters/': typeof AuthenticatedCatalogMonstersIndexRoute
+  '/catalog/weapons/': typeof AuthenticatedCatalogWeaponsIndexRoute
+  '/campaigns/$campaignId/quests/$questId': typeof AuthenticatedCampaignsCampaignIdQuestsQuestIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/auth/callback': typeof AuthCallbackRoute
+  '/hunters/$hunterId': typeof AuthenticatedHuntersHunterIdRoute
+  '/maps/$mapId': typeof AuthenticatedMapsMapIdRoute
+  '/campaigns': typeof AuthenticatedCampaignsIndexRoute
+  '/hunters': typeof AuthenticatedHuntersIndexRoute
+  '/maps': typeof AuthenticatedMapsIndexRoute
+  '/quests': typeof AuthenticatedQuestsIndexRoute
+  '/catalog/equipment/$equipmentId': typeof AuthenticatedCatalogEquipmentEquipmentIdRoute
+  '/catalog/materials/$materialId': typeof AuthenticatedCatalogMaterialsMaterialIdRoute
+  '/catalog/monsters/$monsterId': typeof AuthenticatedCatalogMonstersMonsterIdRoute
+  '/catalog/weapons/$weaponId': typeof AuthenticatedCatalogWeaponsWeaponIdRoute
+  '/campaigns/$campaignId': typeof AuthenticatedCampaignsCampaignIdIndexRoute
+  '/catalog/equipment': typeof AuthenticatedCatalogEquipmentIndexRoute
+  '/catalog/materials': typeof AuthenticatedCatalogMaterialsIndexRoute
+  '/catalog/monsters': typeof AuthenticatedCatalogMonstersIndexRoute
+  '/catalog/weapons': typeof AuthenticatedCatalogWeaponsIndexRoute
+  '/campaigns/$campaignId/quests/$questId': typeof AuthenticatedCampaignsCampaignIdQuestsQuestIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -59,12 +217,73 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/auth/callback': typeof AuthCallbackRoute
+  '/_authenticated/campaigns/$campaignId': typeof AuthenticatedCampaignsCampaignIdRouteWithChildren
+  '/_authenticated/hunters/$hunterId': typeof AuthenticatedHuntersHunterIdRoute
+  '/_authenticated/maps/$mapId': typeof AuthenticatedMapsMapIdRoute
+  '/_authenticated/campaigns/': typeof AuthenticatedCampaignsIndexRoute
+  '/_authenticated/hunters/': typeof AuthenticatedHuntersIndexRoute
+  '/_authenticated/maps/': typeof AuthenticatedMapsIndexRoute
+  '/_authenticated/quests/': typeof AuthenticatedQuestsIndexRoute
+  '/_authenticated/catalog/equipment/$equipmentId': typeof AuthenticatedCatalogEquipmentEquipmentIdRoute
+  '/_authenticated/catalog/materials/$materialId': typeof AuthenticatedCatalogMaterialsMaterialIdRoute
+  '/_authenticated/catalog/monsters/$monsterId': typeof AuthenticatedCatalogMonstersMonsterIdRoute
+  '/_authenticated/catalog/weapons/$weaponId': typeof AuthenticatedCatalogWeaponsWeaponIdRoute
+  '/_authenticated/campaigns/$campaignId/': typeof AuthenticatedCampaignsCampaignIdIndexRoute
+  '/_authenticated/catalog/equipment/': typeof AuthenticatedCatalogEquipmentIndexRoute
+  '/_authenticated/catalog/materials/': typeof AuthenticatedCatalogMaterialsIndexRoute
+  '/_authenticated/catalog/monsters/': typeof AuthenticatedCatalogMonstersIndexRoute
+  '/_authenticated/catalog/weapons/': typeof AuthenticatedCatalogWeaponsIndexRoute
+  '/_authenticated/campaigns/$campaignId/quests/$questId': typeof AuthenticatedCampaignsCampaignIdQuestsQuestIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/register' | '/dashboard'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/register'
+    | '/dashboard'
+    | '/auth/callback'
+    | '/campaigns/$campaignId'
+    | '/hunters/$hunterId'
+    | '/maps/$mapId'
+    | '/campaigns/'
+    | '/hunters/'
+    | '/maps/'
+    | '/quests/'
+    | '/catalog/equipment/$equipmentId'
+    | '/catalog/materials/$materialId'
+    | '/catalog/monsters/$monsterId'
+    | '/catalog/weapons/$weaponId'
+    | '/campaigns/$campaignId/'
+    | '/catalog/equipment/'
+    | '/catalog/materials/'
+    | '/catalog/monsters/'
+    | '/catalog/weapons/'
+    | '/campaigns/$campaignId/quests/$questId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/register' | '/dashboard'
+  to:
+    | '/'
+    | '/login'
+    | '/register'
+    | '/dashboard'
+    | '/auth/callback'
+    | '/hunters/$hunterId'
+    | '/maps/$mapId'
+    | '/campaigns'
+    | '/hunters'
+    | '/maps'
+    | '/quests'
+    | '/catalog/equipment/$equipmentId'
+    | '/catalog/materials/$materialId'
+    | '/catalog/monsters/$monsterId'
+    | '/catalog/weapons/$weaponId'
+    | '/campaigns/$campaignId'
+    | '/catalog/equipment'
+    | '/catalog/materials'
+    | '/catalog/monsters'
+    | '/catalog/weapons'
+    | '/campaigns/$campaignId/quests/$questId'
   id:
     | '__root__'
     | '/'
@@ -72,6 +291,24 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/_authenticated/dashboard'
+    | '/auth/callback'
+    | '/_authenticated/campaigns/$campaignId'
+    | '/_authenticated/hunters/$hunterId'
+    | '/_authenticated/maps/$mapId'
+    | '/_authenticated/campaigns/'
+    | '/_authenticated/hunters/'
+    | '/_authenticated/maps/'
+    | '/_authenticated/quests/'
+    | '/_authenticated/catalog/equipment/$equipmentId'
+    | '/_authenticated/catalog/materials/$materialId'
+    | '/_authenticated/catalog/monsters/$monsterId'
+    | '/_authenticated/catalog/weapons/$weaponId'
+    | '/_authenticated/campaigns/$campaignId/'
+    | '/_authenticated/catalog/equipment/'
+    | '/_authenticated/catalog/materials/'
+    | '/_authenticated/catalog/monsters/'
+    | '/_authenticated/catalog/weapons/'
+    | '/_authenticated/campaigns/$campaignId/quests/$questId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -79,6 +316,7 @@ export interface RootRouteChildren {
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
+  AuthCallbackRoute: typeof AuthCallbackRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -111,6 +349,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -118,15 +363,190 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/quests/': {
+      id: '/_authenticated/quests/'
+      path: '/quests'
+      fullPath: '/quests/'
+      preLoaderRoute: typeof AuthenticatedQuestsIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/maps/': {
+      id: '/_authenticated/maps/'
+      path: '/maps'
+      fullPath: '/maps/'
+      preLoaderRoute: typeof AuthenticatedMapsIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/hunters/': {
+      id: '/_authenticated/hunters/'
+      path: '/hunters'
+      fullPath: '/hunters/'
+      preLoaderRoute: typeof AuthenticatedHuntersIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/campaigns/': {
+      id: '/_authenticated/campaigns/'
+      path: '/campaigns'
+      fullPath: '/campaigns/'
+      preLoaderRoute: typeof AuthenticatedCampaignsIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/maps/$mapId': {
+      id: '/_authenticated/maps/$mapId'
+      path: '/maps/$mapId'
+      fullPath: '/maps/$mapId'
+      preLoaderRoute: typeof AuthenticatedMapsMapIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/hunters/$hunterId': {
+      id: '/_authenticated/hunters/$hunterId'
+      path: '/hunters/$hunterId'
+      fullPath: '/hunters/$hunterId'
+      preLoaderRoute: typeof AuthenticatedHuntersHunterIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/campaigns/$campaignId': {
+      id: '/_authenticated/campaigns/$campaignId'
+      path: '/campaigns/$campaignId'
+      fullPath: '/campaigns/$campaignId'
+      preLoaderRoute: typeof AuthenticatedCampaignsCampaignIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/catalog/weapons/': {
+      id: '/_authenticated/catalog/weapons/'
+      path: '/catalog/weapons'
+      fullPath: '/catalog/weapons/'
+      preLoaderRoute: typeof AuthenticatedCatalogWeaponsIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/catalog/monsters/': {
+      id: '/_authenticated/catalog/monsters/'
+      path: '/catalog/monsters'
+      fullPath: '/catalog/monsters/'
+      preLoaderRoute: typeof AuthenticatedCatalogMonstersIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/catalog/materials/': {
+      id: '/_authenticated/catalog/materials/'
+      path: '/catalog/materials'
+      fullPath: '/catalog/materials/'
+      preLoaderRoute: typeof AuthenticatedCatalogMaterialsIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/catalog/equipment/': {
+      id: '/_authenticated/catalog/equipment/'
+      path: '/catalog/equipment'
+      fullPath: '/catalog/equipment/'
+      preLoaderRoute: typeof AuthenticatedCatalogEquipmentIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/campaigns/$campaignId/': {
+      id: '/_authenticated/campaigns/$campaignId/'
+      path: '/'
+      fullPath: '/campaigns/$campaignId/'
+      preLoaderRoute: typeof AuthenticatedCampaignsCampaignIdIndexRouteImport
+      parentRoute: typeof AuthenticatedCampaignsCampaignIdRoute
+    }
+    '/_authenticated/catalog/weapons/$weaponId': {
+      id: '/_authenticated/catalog/weapons/$weaponId'
+      path: '/catalog/weapons/$weaponId'
+      fullPath: '/catalog/weapons/$weaponId'
+      preLoaderRoute: typeof AuthenticatedCatalogWeaponsWeaponIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/catalog/monsters/$monsterId': {
+      id: '/_authenticated/catalog/monsters/$monsterId'
+      path: '/catalog/monsters/$monsterId'
+      fullPath: '/catalog/monsters/$monsterId'
+      preLoaderRoute: typeof AuthenticatedCatalogMonstersMonsterIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/catalog/materials/$materialId': {
+      id: '/_authenticated/catalog/materials/$materialId'
+      path: '/catalog/materials/$materialId'
+      fullPath: '/catalog/materials/$materialId'
+      preLoaderRoute: typeof AuthenticatedCatalogMaterialsMaterialIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/catalog/equipment/$equipmentId': {
+      id: '/_authenticated/catalog/equipment/$equipmentId'
+      path: '/catalog/equipment/$equipmentId'
+      fullPath: '/catalog/equipment/$equipmentId'
+      preLoaderRoute: typeof AuthenticatedCatalogEquipmentEquipmentIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/campaigns/$campaignId/quests/$questId': {
+      id: '/_authenticated/campaigns/$campaignId/quests/$questId'
+      path: '/quests/$questId'
+      fullPath: '/campaigns/$campaignId/quests/$questId'
+      preLoaderRoute: typeof AuthenticatedCampaignsCampaignIdQuestsQuestIdRouteImport
+      parentRoute: typeof AuthenticatedCampaignsCampaignIdRoute
+    }
   }
 }
 
+interface AuthenticatedCampaignsCampaignIdRouteChildren {
+  AuthenticatedCampaignsCampaignIdIndexRoute: typeof AuthenticatedCampaignsCampaignIdIndexRoute
+  AuthenticatedCampaignsCampaignIdQuestsQuestIdRoute: typeof AuthenticatedCampaignsCampaignIdQuestsQuestIdRoute
+}
+
+const AuthenticatedCampaignsCampaignIdRouteChildren: AuthenticatedCampaignsCampaignIdRouteChildren =
+  {
+    AuthenticatedCampaignsCampaignIdIndexRoute:
+      AuthenticatedCampaignsCampaignIdIndexRoute,
+    AuthenticatedCampaignsCampaignIdQuestsQuestIdRoute:
+      AuthenticatedCampaignsCampaignIdQuestsQuestIdRoute,
+  }
+
+const AuthenticatedCampaignsCampaignIdRouteWithChildren =
+  AuthenticatedCampaignsCampaignIdRoute._addFileChildren(
+    AuthenticatedCampaignsCampaignIdRouteChildren,
+  )
+
 interface AuthenticatedRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedCampaignsCampaignIdRoute: typeof AuthenticatedCampaignsCampaignIdRouteWithChildren
+  AuthenticatedHuntersHunterIdRoute: typeof AuthenticatedHuntersHunterIdRoute
+  AuthenticatedMapsMapIdRoute: typeof AuthenticatedMapsMapIdRoute
+  AuthenticatedCampaignsIndexRoute: typeof AuthenticatedCampaignsIndexRoute
+  AuthenticatedHuntersIndexRoute: typeof AuthenticatedHuntersIndexRoute
+  AuthenticatedMapsIndexRoute: typeof AuthenticatedMapsIndexRoute
+  AuthenticatedQuestsIndexRoute: typeof AuthenticatedQuestsIndexRoute
+  AuthenticatedCatalogEquipmentEquipmentIdRoute: typeof AuthenticatedCatalogEquipmentEquipmentIdRoute
+  AuthenticatedCatalogMaterialsMaterialIdRoute: typeof AuthenticatedCatalogMaterialsMaterialIdRoute
+  AuthenticatedCatalogMonstersMonsterIdRoute: typeof AuthenticatedCatalogMonstersMonsterIdRoute
+  AuthenticatedCatalogWeaponsWeaponIdRoute: typeof AuthenticatedCatalogWeaponsWeaponIdRoute
+  AuthenticatedCatalogEquipmentIndexRoute: typeof AuthenticatedCatalogEquipmentIndexRoute
+  AuthenticatedCatalogMaterialsIndexRoute: typeof AuthenticatedCatalogMaterialsIndexRoute
+  AuthenticatedCatalogMonstersIndexRoute: typeof AuthenticatedCatalogMonstersIndexRoute
+  AuthenticatedCatalogWeaponsIndexRoute: typeof AuthenticatedCatalogWeaponsIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedCampaignsCampaignIdRoute:
+    AuthenticatedCampaignsCampaignIdRouteWithChildren,
+  AuthenticatedHuntersHunterIdRoute: AuthenticatedHuntersHunterIdRoute,
+  AuthenticatedMapsMapIdRoute: AuthenticatedMapsMapIdRoute,
+  AuthenticatedCampaignsIndexRoute: AuthenticatedCampaignsIndexRoute,
+  AuthenticatedHuntersIndexRoute: AuthenticatedHuntersIndexRoute,
+  AuthenticatedMapsIndexRoute: AuthenticatedMapsIndexRoute,
+  AuthenticatedQuestsIndexRoute: AuthenticatedQuestsIndexRoute,
+  AuthenticatedCatalogEquipmentEquipmentIdRoute:
+    AuthenticatedCatalogEquipmentEquipmentIdRoute,
+  AuthenticatedCatalogMaterialsMaterialIdRoute:
+    AuthenticatedCatalogMaterialsMaterialIdRoute,
+  AuthenticatedCatalogMonstersMonsterIdRoute:
+    AuthenticatedCatalogMonstersMonsterIdRoute,
+  AuthenticatedCatalogWeaponsWeaponIdRoute:
+    AuthenticatedCatalogWeaponsWeaponIdRoute,
+  AuthenticatedCatalogEquipmentIndexRoute:
+    AuthenticatedCatalogEquipmentIndexRoute,
+  AuthenticatedCatalogMaterialsIndexRoute:
+    AuthenticatedCatalogMaterialsIndexRoute,
+  AuthenticatedCatalogMonstersIndexRoute:
+    AuthenticatedCatalogMonstersIndexRoute,
+  AuthenticatedCatalogWeaponsIndexRoute: AuthenticatedCatalogWeaponsIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
@@ -138,6 +558,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
+  AuthCallbackRoute: AuthCallbackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

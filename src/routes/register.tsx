@@ -1,12 +1,13 @@
 import { createFileRoute, redirect, Link } from '@tanstack/react-router';
 import { useAuthStore } from '../features/auth/store';
 import { RegisterForm } from '../features/auth/components/RegisterForm';
+import { GoogleAuthButton } from '../features/auth/components/GoogleAuthButton';
 import { APP_NAME, APP_SERIES } from '../shared/lib/brand';
 
 export const Route = createFileRoute('/register')({
   beforeLoad: () => {
     if (useAuthStore.getState().token) {
-      throw redirect({ to: '/dashboard' });
+      throw redirect({ to: '/campaigns' });
     }
   },
   component: RegisterPage,
@@ -15,12 +16,12 @@ export const Route = createFileRoute('/register')({
 function RegisterPage() {
   return (
     <div className="flex min-h-screen">
-      {/* ── Left: Hero panel (same as login) ────────────────────────────────── */}
+      {/* ── Left: Hero panel ──────────────────────────────────────────────── */}
       <div className="relative hidden lg:flex lg:w-[58%]">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            background: 'linear-gradient(135deg, #0d1b2e 0%, #111008 60%, #1a1005 100%)',
+            background: 'linear-gradient(135deg, #0a0905 0%, #111008 60%, #1e1a10 100%)',
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
@@ -34,24 +35,31 @@ function RegisterPage() {
         </div>
       </div>
 
-      {/* ── Right: Form panel ────────────────────────────────────────────────── */}
-      <div className="flex flex-1 items-center justify-center bg-white px-8 py-12">
+      {/* ── Right: Form panel ────────────────────────────────────────────── */}
+      <div className="flex flex-1 items-center justify-center bg-background px-8 py-12">
         <div className="w-full max-w-sm">
-          {/* Mobile-only brand header */}
           <div className="mb-8 lg:hidden">
             <p className="text-xs font-semibold uppercase tracking-widest text-muted">
               {APP_SERIES}
             </p>
-            <h1 className="text-2xl font-bold text-gray-900">{APP_NAME}</h1>
+            <h1 className="text-2xl font-bold text-cream">{APP_NAME}</h1>
           </div>
 
-          <h2 className="mb-6 text-2xl font-bold text-gray-900">Create Account</h2>
+          <h2 className="mb-6 text-2xl font-bold text-cream">Create Account</h2>
 
-          <RegisterForm theme="light" />
+          <GoogleAuthButton />
 
-          <p className="mt-6 text-center text-sm text-gray-500">
+          <div className="my-5 flex items-center gap-3">
+            <div className="h-px flex-1 bg-primary/10" />
+            <span className="text-xs text-muted">or</span>
+            <div className="h-px flex-1 bg-primary/10" />
+          </div>
+
+          <RegisterForm />
+
+          <p className="mt-6 text-center text-sm text-muted">
             Already have an account?{' '}
-            <Link to="/login" className="font-medium text-gray-900 hover:underline">
+            <Link to="/login" className="font-medium text-primary hover:text-primary-light">
               Sign in
             </Link>
           </p>
