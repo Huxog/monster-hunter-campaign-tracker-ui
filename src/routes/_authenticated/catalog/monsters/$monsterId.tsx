@@ -80,79 +80,139 @@ function MonsterDetailPage() {
         <span className="text-cream">{monster.name}</span>
       </nav>
 
-      {/* Header card */}
-      <div className="mb-6 rounded-lg border border-primary/15 bg-surface p-6">
+      {/* Monster card */}
+      <div className="overflow-hidden rounded-lg border-2 border-primary/25 bg-surface shadow-sm ring-1 ring-inset ring-primary/10">
         {mode === 'edit' ? (
-          <EditMonsterForm
-            monsterId={monsterId}
-            monster={monster}
-            onSuccess={() => setMode('view')}
-            onCancel={() => setMode('view')}
-          />
+          <div className="p-6">
+            <EditMonsterForm
+              monsterId={monsterId}
+              monster={monster}
+              onSuccess={() => setMode('view')}
+              onCancel={() => setMode('view')}
+            />
+          </div>
         ) : (
           <>
-            <div className="flex items-start gap-5">
-              {/* Image */}
-              {monster.imagePath ? (
-                <img
-                  src={monster.imagePath}
-                  alt={monster.name}
-                  className="h-20 w-20 rounded-lg object-cover"
-                />
-              ) : (
-                <div className="flex h-20 w-20 items-center justify-center rounded-lg bg-surface-alt text-3xl">
-                  🐉
-                </div>
-              )}
+            {/* Header */}
+            <div className="p-6">
+              <div className="flex items-start gap-5">
+                {monster.imagePath ? (
+                  <img
+                    src={monster.imagePath}
+                    alt={monster.name}
+                    className="h-20 w-20 shrink-0 rounded-lg border border-primary/20 object-cover"
+                  />
+                ) : (
+                  <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-lg border border-primary/20 bg-surface-alt text-3xl">
+                    🐉
+                  </div>
+                )}
 
-              <div className="flex-1">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <h1 className="text-2xl font-bold text-cream">
-                      {monster.name}
-                    </h1>
-                    <div className="mt-1 flex items-center gap-0.5">
-                      {Array.from({ length: monster.stars }, (_, i) => (
-                        <span key={i} className="text-sm text-ember">
-                          ★
-                        </span>
-                      ))}
-                      {Array.from(
-                        { length: 7 - monster.stars },
-                        (_, i) => (
-                          <span key={i} className="text-sm text-muted/30">
-                            ★
-                          </span>
-                        ),
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <h1 className="text-2xl font-bold text-cream">
+                        {monster.name}
+                      </h1>
+                      <div className="mt-1 flex items-center gap-0.5">
+                        {Array.from({ length: monster.stars }, (_, i) => (
+                          <span key={i} className="text-sm text-ember">★</span>
+                        ))}
+                        {Array.from({ length: 7 - monster.stars }, (_, i) => (
+                          <span key={i} className="text-sm text-muted/30">★</span>
+                        ))}
+                      </div>
+                      {monster.description && (
+                        <p className="mt-2 text-sm text-muted">
+                          {monster.description}
+                        </p>
                       )}
                     </div>
-                    {monster.description && (
-                      <p className="mt-2 text-sm text-muted">
-                        {monster.description}
-                      </p>
+                    {isAdmin && (
+                      <div className="flex shrink-0 items-center gap-2">
+                        <Button
+                          variant="secondary"
+                          size="sm"
+                          onClick={() => setMode('edit')}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          variant="danger"
+                          size="sm"
+                          onClick={() => setConfirmDelete(true)}
+                        >
+                          Delete
+                        </Button>
+                      </div>
                     )}
                   </div>
-                  {isAdmin && (
-                    <div className="flex items-center gap-2">
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        onClick={() => setMode('edit')}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        variant="danger"
-                        size="sm"
-                        onClick={() => setConfirmDelete(true)}
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>
+
+            {/* Weaknesses — two columns separated by a gold divider */}
+            <div className="border-t border-primary/20">
+              <div className="grid grid-cols-1 divide-y divide-primary/15 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
+                <div className="p-5">
+                  <h2 className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-muted">
+                    Elemental
+                  </h2>
+                  <div className="rounded border border-primary/15 bg-surface-alt/60 p-3">
+                    <div className="grid grid-cols-2 gap-2">
+                      {ELEMENTAL_TYPES.map((el) => (
+                        <WeaknessCell
+                          key={el}
+                          label={el}
+                          value={monster.elementalWeaknesses[el]}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div className="p-5">
+                  <h2 className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-muted">
+                    Ailments
+                  </h2>
+                  <div className="rounded border border-primary/15 bg-surface-alt/60 p-3">
+                    <div className="grid grid-cols-2 gap-2">
+                      {AILMENT_TYPES.map((ail) => (
+                        <WeaknessCell
+                          key={ail}
+                          label={ail}
+                          value={monster.ailmentWeaknesses[ail]}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Material drops */}
+            {monster.materials !== undefined && (
+              <div className="border-t border-primary/20 p-5">
+                <h2 className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-muted">
+                  Drops
+                </h2>
+                {monster.materials.length === 0 ? (
+                  <p className="text-sm text-muted">No materials listed.</p>
+                ) : (
+                  <div className="flex flex-wrap gap-2">
+                    {monster.materials.map((m) => (
+                      <Link
+                        key={m.id}
+                        to="/catalog/materials/$materialId"
+                        params={{ materialId: m.id }}
+                        className="rounded-full border border-primary/20 bg-surface-alt px-3 py-1 text-sm text-cream transition-colors hover:border-primary/50 hover:text-primary"
+                      >
+                        {m.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
 
             <ConfirmDialog
               open={confirmDelete}
@@ -165,88 +225,26 @@ function MonsterDetailPage() {
           </>
         )}
       </div>
-
-      {/* Elemental weaknesses */}
-      <section className="mb-6">
-        <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted">
-          Elemental weaknesses
-        </h2>
-        <div className="grid grid-cols-5 gap-3 rounded-lg border border-primary/15 bg-surface p-4">
-          {ELEMENTAL_TYPES.map((el) => (
-            <WeaknessBar
-              key={el}
-              label={el}
-              value={monster.elementalWeaknesses[el]}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* Ailment weaknesses */}
-      <section className="mb-6">
-        <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted">
-          Ailment weaknesses
-        </h2>
-        <div className="grid grid-cols-3 gap-3 rounded-lg border border-primary/15 bg-surface p-4 sm:grid-cols-5">
-          {AILMENT_TYPES.map((ail) => (
-            <WeaknessBar
-              key={ail}
-              label={ail}
-              value={monster.ailmentWeaknesses[ail]}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* Material drops */}
-      {monster.materials !== undefined && (
-        <section className="mb-6">
-          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted">
-            Material drops
-          </h2>
-          {monster.materials.length === 0 ? (
-            <p className="rounded-lg border border-primary/15 bg-surface px-4 py-6 text-center text-sm text-muted">
-              No materials listed.
-            </p>
-          ) : (
-            <div className="flex flex-wrap gap-2">
-              {monster.materials.map((m) => (
-                <Link
-                  key={m.id}
-                  to="/catalog/materials/$materialId"
-                  params={{ materialId: m.id }}
-                  className="rounded-full border border-primary/20 bg-surface px-3 py-1 text-sm text-cream transition-colors hover:border-primary/50 hover:text-primary"
-                >
-                  {m.name}
-                </Link>
-              ))}
-            </div>
-          )}
-        </section>
-      )}
     </div>
   );
 }
 
-// ─── Weakness bar ─────────────────────────────────────────────────────────────
+// ─── Weakness cell ────────────────────────────────────────────────────────────
 
-interface WeaknessBarProps {
+interface WeaknessCellProps {
   label: string;
   value: WeaknessScale;
 }
 
-function WeaknessBar({ label, value }: WeaknessBarProps) {
+function WeaknessCell({ label, value }: WeaknessCellProps) {
   return (
-    <div className="flex flex-col items-center gap-1.5">
-      <span className="flex items-center gap-1 text-xs font-medium text-muted">
-        <ElementIcon element={label} className="h-3.5 w-3.5" />
-        {label}
-      </span>
-      <div className="flex items-center gap-0.5">
+    <div className="flex flex-col items-center gap-1.5 rounded border border-primary/10 bg-surface/70 py-2">
+      <ElementIcon element={label} className="h-6 w-6" />
+      <div className="flex gap-0.5">
         {([1, 2, 3] as const).map((level) => (
           <span
             key={level}
-            className={level <= value ? 'text-sm text-ember' : 'text-sm text-muted/20'}
+            className={level <= value ? 'text-base text-ember' : 'text-base text-muted/30'}
           >
             ★
           </span>

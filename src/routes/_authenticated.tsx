@@ -28,8 +28,8 @@ const navItem = tv({
   base: 'flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors',
   variants: {
     active: {
-      true: 'bg-surface-alt text-cream border-l-2 border-primary pl-[10px]',
-      false: 'text-cream/60 hover:bg-surface-alt hover:text-cream',
+      true: 'bg-background text-cream border-l-2 border-primary pl-[10px]',
+      false: 'text-cream/60 hover:bg-background hover:text-cream',
     },
   },
   defaultVariants: { active: false },
@@ -87,7 +87,7 @@ function SidebarContent({ onNavigate, onCollapse }: SidebarProps) {
   return (
     <>
       {/* Brand */}
-      <div className="flex items-center gap-2 px-4 py-5 border-b border-surface-alt/40">
+      <div className="flex h-12 shrink-0 items-center gap-2 border-b border-primary/15 px-4">
         <span className="text-xs font-black uppercase tracking-widest text-cream">
           Monster Hunter
         </span>
@@ -108,10 +108,10 @@ function SidebarContent({ onNavigate, onCollapse }: SidebarProps) {
 
       {/* Collapse button — desktop only */}
       {onCollapse && (
-        <div className="sticky bottom-0 border-t border-surface-alt/40 bg-background p-2">
+        <div className="sticky bottom-0 border-t border-primary/15 bg-surface-alt p-2">
           <button
             onClick={onCollapse}
-            className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-xs text-cream/40 transition-colors hover:bg-surface-alt hover:text-cream"
+            className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-xs text-cream/40 transition-colors hover:bg-background hover:text-cream"
           >
             <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M18.75 19.5l-7.5-7.5 7.5-7.5m-6 15L5.25 12l7.5-7.5" />
@@ -179,12 +179,12 @@ function AuthenticatedLayout() {
   return (
     <div className="flex min-h-screen bg-background">
       {/* ── Desktop sidebar ───────────────────────────────────────────────── */}
-      <aside className={['hidden lg:flex shrink-0 flex-col bg-background border-r border-surface-alt/40 min-h-screen transition-[width] duration-200', desktopCollapsed ? 'w-12' : 'w-52'].join(' ')}>
+      <aside className={['hidden lg:flex shrink-0 flex-col bg-surface-alt border-r border-primary/15 min-h-screen transition-[width] duration-200', desktopCollapsed ? 'w-12' : 'w-52'].join(' ')}>
         {desktopCollapsed ? (
           <div className="flex flex-1 flex-col items-center pt-3">
             <button
               onClick={() => setDesktopCollapsed(false)}
-              className="rounded-md p-2 text-cream/40 transition-colors hover:bg-surface-alt hover:text-cream"
+              className="rounded-md p-2 text-cream/40 transition-colors hover:bg-background hover:text-cream"
               aria-label="Expand sidebar"
             >
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -207,7 +207,7 @@ function AuthenticatedLayout() {
             aria-hidden="true"
           />
           {/* Drawer */}
-          <aside className="absolute inset-y-0 left-0 flex w-52 flex-col bg-background border-r border-surface-alt/40">
+          <aside className="absolute inset-y-0 left-0 flex w-52 flex-col bg-surface-alt border-r border-primary/15">
             <SidebarContent onNavigate={closeMobile} />
           </aside>
         </div>
@@ -224,9 +224,9 @@ function AuthenticatedLayout() {
         position="bottom-right"
         toastOptions={{
           style: {
-            background: '#2a2416',
-            border: '1px solid rgba(200,149,42,0.2)',
-            color: '#f0e3c0',
+            background: '#f5edd0',
+            border: '1px solid rgba(200,149,42,0.3)',
+            color: '#2a1a08',
           },
         }}
       />

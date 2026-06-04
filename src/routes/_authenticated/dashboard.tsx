@@ -223,7 +223,7 @@ function OutcomeChip({ outcome }: { outcome: 'success' | 'failure' | 'abandoned'
     return <span className="rounded bg-primary/10 px-1.5 py-0.5 text-[10px] font-medium text-primary">Active</span>;
   }
   const styles = {
-    success:   'bg-green-900/40 text-green-300',
+    success:   'bg-green-700/15 text-green-800',
     failure:   'bg-ember/20 text-ember',
     abandoned: 'bg-surface-alt text-muted',
   };

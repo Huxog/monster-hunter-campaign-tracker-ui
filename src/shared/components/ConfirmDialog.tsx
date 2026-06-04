@@ -16,7 +16,7 @@ const overlay = tv({
 });
 
 const dialog = tv({
-  base: 'w-full max-w-sm rounded-lg border border-gold/20 bg-surface-alt p-6 shadow-xl',
+  base: 'w-full max-w-sm rounded-lg border border-primary/20 bg-surface-alt p-6 shadow-xl',
 });
 
 const confirmBtn = tv({
@@ -24,14 +24,14 @@ const confirmBtn = tv({
   variants: {
     pending: {
       true: 'cursor-not-allowed opacity-50 bg-ember',
-      false: 'bg-ember hover:bg-ember/80 text-cream',
+      false: 'bg-ember hover:bg-ember/80 text-surface',
     },
   },
   defaultVariants: { pending: false },
 });
 
 const cancelBtn = tv({
-  base: 'rounded border border-gold/30 px-4 py-2 text-sm font-semibold text-cream transition-colors hover:border-gold/60 focus:outline-none focus:ring-2 focus:ring-gold/30',
+  base: 'rounded border border-primary/30 px-4 py-2 text-sm font-semibold text-cream transition-colors hover:border-primary/60 focus:outline-none focus:ring-2 focus:ring-primary/30',
 });
 
 export function ConfirmDialog({

@@ -7,7 +7,7 @@ const button = tv({
       primary: 'bg-primary text-background hover:bg-primary-light',
       secondary: 'border border-primary/20 bg-surface-alt text-cream hover:border-primary/40 hover:bg-surface',
       ghost: 'text-primary hover:bg-primary/10',
-      danger: 'bg-ember text-cream hover:bg-ember/80',
+      danger: 'bg-ember text-surface hover:bg-ember/80',
     },
     size: {
       sm: 'h-8 px-3 text-sm rounded',

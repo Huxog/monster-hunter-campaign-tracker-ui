@@ -92,9 +92,9 @@ function QuestDetailPage() {
       </nav>
 
       {/* Monster card */}
-      <div className="mb-5 rounded-lg border border-primary/15 bg-surface overflow-hidden">
+      <div className="mb-5 overflow-hidden rounded-lg border-2 border-primary/25 bg-surface shadow-sm ring-1 ring-inset ring-primary/10">
         <div className="flex gap-5 p-6">
-          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-lg border border-primary/15 bg-surface overflow-hidden">
+          <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-primary/20 bg-surface-alt">
             {quest.monster?.imagePath ? (
               <img
                 src={quest.monster.imagePath}
@@ -109,26 +109,36 @@ function QuestDetailPage() {
           </div>
 
           <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-2 flex-wrap">
-              <h1 className="text-xl font-bold text-cream">
-                {quest.monster?.name ?? '—'}
-              </h1>
-              {quest.monster?.stars && (
-                <span className="text-ember text-sm font-medium">
-                  {'★'.repeat(quest.monster.stars)}
-                </span>
-              )}
-            </div>
+            <h1 className="text-xl font-bold text-cream">
+              {quest.monster?.name ?? '—'}
+            </h1>
+            {quest.monster?.stars && (
+              <div className="mt-1 flex items-center gap-0.5">
+                {Array.from({ length: quest.monster.stars }, (_, i) => (
+                  <span key={i} className="text-sm text-ember">★</span>
+                ))}
+                {Array.from({ length: 7 - quest.monster.stars }, (_, i) => (
+                  <span key={i} className="text-sm text-muted/30">★</span>
+                ))}
+              </div>
+            )}
             {monster?.description && (
               <p className="mt-1 text-sm text-muted line-clamp-2">{monster.description}</p>
             )}
-            {monster && (
-              <div className="mt-3 space-y-3">
-                <div>
-                  <p className="mb-1.5 text-xs font-medium text-muted">Elemental</p>
-                  <div className="grid grid-cols-5 gap-2">
+          </div>
+        </div>
+
+        {monster && (
+          <div className="border-t border-primary/20">
+            <div className="grid grid-cols-1 divide-y divide-primary/15 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
+              <div className="p-5">
+                <h2 className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-muted">
+                  Elemental
+                </h2>
+                <div className="rounded border border-primary/15 bg-surface-alt/60 p-3">
+                  <div className="grid grid-cols-2 gap-2">
                     {ELEMENTAL_TYPES.map((el) => (
-                      <WeaknessBar
+                      <WeaknessCell
                         key={el}
                         label={el}
                         value={(monster.elementalWeaknesses[el] ?? 0) as WeaknessScale}
@@ -136,11 +146,15 @@ function QuestDetailPage() {
                     ))}
                   </div>
                 </div>
-                <div>
-                  <p className="mb-1.5 text-xs font-medium text-muted">Ailment</p>
-                  <div className="grid grid-cols-5 gap-2">
+              </div>
+              <div className="p-5">
+                <h2 className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-muted">
+                  Ailments
+                </h2>
+                <div className="rounded border border-primary/15 bg-surface-alt/60 p-3">
+                  <div className="grid grid-cols-2 gap-2">
                     {AILMENT_TYPES.map((ail) => (
-                      <WeaknessBar
+                      <WeaknessCell
                         key={ail}
                         label={ail}
                         value={(monster.ailmentWeaknesses[ail] ?? 0) as WeaknessScale}
@@ -149,13 +163,13 @@ function QuestDetailPage() {
                   </div>
                 </div>
               </div>
-            )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Quest status card */}
-      <div className="mb-5 rounded-lg border border-primary/15 bg-surface p-6">
+      <div className="mb-5 overflow-hidden rounded-lg border-2 border-primary/25 bg-surface p-6 shadow-sm ring-1 ring-inset ring-primary/10">
         {mode === 'edit' ? (
           <EditQuestForm
             questId={questId}
@@ -176,7 +190,7 @@ function QuestDetailPage() {
                   <span className="text-sm text-muted">Hunt in progress</span>
                 )}
               </div>
-              <div className="flex items-center gap-2 shrink-0">
+              <div className="flex shrink-0 items-center gap-2">
                 <Button variant="secondary" size="sm" onClick={() => setMode('edit')}>
                   Edit
                 </Button>
@@ -201,8 +215,8 @@ function QuestDetailPage() {
       </div>
 
       {/* Hunter participants */}
-      <div className="rounded-lg border border-primary/15 bg-surface p-6">
-        <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-muted">
+      <div className="overflow-hidden rounded-lg border-2 border-primary/25 bg-surface p-6 shadow-sm ring-1 ring-inset ring-primary/10">
+        <h2 className="mb-4 text-[10px] font-semibold uppercase tracking-widest text-muted">
           Participating Hunters
         </h2>
         {quest.hunters && quest.hunters.length > 0 ? (
@@ -212,10 +226,10 @@ function QuestDetailPage() {
                 key={hunter.id}
                 to="/hunters/$hunterId"
                 params={{ hunterId: hunter.id }}
-                className="group flex items-center gap-3 rounded-md border border-primary/10 bg-surface px-4 py-3 transition-colors hover:border-primary/30 hover:bg-surface-alt-alt"
+                className="group flex items-center gap-3 rounded-md border border-primary/15 bg-surface-alt/60 px-4 py-3 transition-colors hover:border-primary/30 hover:bg-surface-alt"
               >
                 <div className="min-w-0 flex-1">
-                  <span className="text-sm font-medium text-cream group-hover:text-primary transition-colors">
+                  <span className="text-sm font-medium text-cream transition-colors group-hover:text-primary">
                     {hunter.hunterName}
                   </span>
                   <span className="ml-2 text-xs text-muted">{hunter.playerName}</span>
@@ -236,20 +250,17 @@ function QuestDetailPage() {
   );
 }
 
-// ─── Weakness bar ─────────────────────────────────────────────────────────────
+// ─── Weakness cell ────────────────────────────────────────────────────────────
 
-function WeaknessBar({ label, value }: { label: string; value: WeaknessScale }) {
+function WeaknessCell({ label, value }: { label: string; value: WeaknessScale }) {
   return (
-    <div className="flex flex-col items-center gap-1.5">
-      <span className="flex items-center gap-1 text-xs font-medium text-muted">
-        <ElementIcon element={label} className="h-3.5 w-3.5" />
-        {label}
-      </span>
-      <div className="flex items-center gap-0.5">
+    <div className="flex flex-col items-center gap-1.5 rounded border border-primary/10 bg-surface/70 py-2">
+      <ElementIcon element={label} className="h-6 w-6" />
+      <div className="flex gap-0.5">
         {([1, 2, 3] as const).map((level) => (
           <span
             key={level}
-            className={level <= value ? 'text-sm text-ember' : 'text-sm text-muted/20'}
+            className={level <= value ? 'text-base text-ember' : 'text-base text-muted/30'}
           >
             ★
           </span>
