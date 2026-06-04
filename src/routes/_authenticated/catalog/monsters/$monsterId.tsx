@@ -18,7 +18,7 @@ import {
   type WeaknessScale,
   type Monster,
 } from '../../../../features/monsters/types';
-import { useMaterials } from '../../../../features/materials/api';
+import { useMaterialsAll } from '../../../../features/materials/api';
 import { useAuthStore } from '../../../../features/auth/store';
 import { Button } from '../../../../shared/components/Button';
 import { ConfirmDialog } from '../../../../shared/components/ConfirmDialog';
@@ -272,7 +272,7 @@ function EditMonsterForm({
   onCancel,
 }: EditMonsterFormProps) {
   const updateMonster = useUpdateMonster(monsterId);
-  const { data: materialsData } = useMaterials();
+  const { data: materialsData } = useMaterialsAll();
   const materials = materialsData?.data ?? [];
 
   const {

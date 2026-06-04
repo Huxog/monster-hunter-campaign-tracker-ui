@@ -18,7 +18,7 @@ import {
   ELEMENTAL_TYPES,
   AILMENT_TYPES,
 } from '../../../../features/monsters/types';
-import { useMaterials } from '../../../../features/materials/api';
+import { useMaterialsAll } from '../../../../features/materials/api';
 import { useAuthStore } from '../../../../features/auth/store';
 import { Button } from '../../../../shared/components/Button';
 import { Field, Input, Select } from '../../../../shared/components/Field';
@@ -192,7 +192,7 @@ interface CreateMonsterFormProps {
 
 function CreateMonsterForm({ onSuccess, onCancel }: CreateMonsterFormProps) {
   const createMonster = useCreateMonster();
-  const { data: materialsData } = useMaterials();
+  const { data: materialsData } = useMaterialsAll();
   const materials = materialsData?.data ?? [];
 
   const {
