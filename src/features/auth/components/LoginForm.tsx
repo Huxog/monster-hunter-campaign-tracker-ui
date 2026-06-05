@@ -21,9 +21,10 @@ const forgotLink = tv({
 
 export interface LoginFormProps {
   theme?: FieldTheme;
+  redirectTo?: string;
 }
 
-export function LoginForm({ theme = 'dark' }: LoginFormProps) {
+export function LoginForm({ theme = 'dark', redirectTo }: LoginFormProps) {
   const navigate = useNavigate();
   const login = useLogin();
 
@@ -37,7 +38,10 @@ export function LoginForm({ theme = 'dark' }: LoginFormProps) {
 
   const onSubmit = (data: LoginInput) => {
     login.mutate(data, {
-      onSuccess: () => void navigate({ to: '/dashboard' }),
+      onSuccess: () =>
+        redirectTo
+          ? void navigate({ to: redirectTo as never })
+          : void navigate({ to: '/dashboard' }),
     });
   };
 

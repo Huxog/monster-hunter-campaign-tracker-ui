@@ -1,10 +1,12 @@
 import { createFileRoute, redirect, Link } from '@tanstack/react-router';
+import { z } from 'zod';
 import { useAuthStore } from '../features/auth/store';
 import { RegisterForm } from '../features/auth/components/RegisterForm';
 import { GoogleAuthButton } from '../features/auth/components/GoogleAuthButton';
 import { APP_NAME, APP_SERIES } from '../shared/lib/brand';
 
 export const Route = createFileRoute('/register')({
+  validateSearch: z.object({ redirect: z.string().optional() }),
   beforeLoad: () => {
     if (useAuthStore.getState().token) {
       throw redirect({ to: '/campaigns' });
@@ -14,6 +16,7 @@ export const Route = createFileRoute('/register')({
 });
 
 function RegisterPage() {
+  const { redirect: redirectTo } = Route.useSearch();
   return (
     <div className="flex min-h-screen">
       {/* ── Left: Hero panel ──────────────────────────────────────────────── */}
@@ -55,7 +58,7 @@ function RegisterPage() {
             <div className="h-px flex-1 bg-primary/10" />
           </div>
 
-          <RegisterForm />
+          <RegisterForm redirectTo={redirectTo} />
 
           <p className="mt-6 text-center text-sm text-muted">
             Already have an account?{' '}

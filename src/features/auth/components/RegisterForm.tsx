@@ -9,9 +9,10 @@ import { ApiError } from '../../../shared/lib/apiClient';
 
 export interface RegisterFormProps {
   theme?: FieldTheme;
+  redirectTo?: string;
 }
 
-export function RegisterForm({ theme = 'dark' }: RegisterFormProps) {
+export function RegisterForm({ theme = 'dark', redirectTo }: RegisterFormProps) {
   const navigate = useNavigate();
   const register = useRegister();
 
@@ -25,7 +26,10 @@ export function RegisterForm({ theme = 'dark' }: RegisterFormProps) {
 
   const onSubmit = (data: RegisterInput) => {
     register.mutate(data, {
-      onSuccess: () => void navigate({ to: '/dashboard' }),
+      onSuccess: () =>
+        redirectTo
+          ? void navigate({ to: redirectTo as never })
+          : void navigate({ to: '/dashboard' }),
     });
   };
 

@@ -18,6 +18,11 @@ import { useMonstersAll } from '../../../../features/monsters/api';
 import { useCreateQuest } from '../../../../features/quests/api';
 import { questCreateSchema, type QuestCreateInput } from '../../../../features/quests/schemas';
 import { useAuthStore } from '../../../../features/auth/store';
+import { useCreateInvitation } from '../../../../features/invitations/api';
+import {
+  createInvitationSchema,
+  type CreateInvitationInput,
+} from '../../../../features/invitations/schemas';
 import { ElementIcon } from '../../../../shared/components/ElementIcon';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import { Tabs } from '../../../../shared/components/Tabs';
@@ -48,6 +53,7 @@ function CampaignDetailPage() {
   const [loadedTabs, setLoadedTabs] = useState<Set<string>>(new Set(['hunters']));
   const [mode, setMode] = useState<'view' | 'edit'>('view');
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [showInviteModal, setShowInviteModal] = useState(false);
   const deleteCampaign = useDeleteCampaign();
   const navigate = useNavigate();
 
@@ -135,6 +141,9 @@ function CampaignDetailPage() {
                 <p className="mt-1 text-sm text-muted">{campaign.teamName}</p>
               </div>
               <div className="flex items-center gap-2">
+                <Button variant="secondary" size="sm" onClick={() => setShowInviteModal(true)}>
+                  Invite
+                </Button>
                 <Button variant="secondary" size="sm" onClick={() => setMode('edit')}>
                   Edit
                 </Button>
@@ -159,6 +168,12 @@ function CampaignDetailPage() {
               onConfirm={handleDelete}
               onCancel={() => setConfirmDelete(false)}
               isPending={deleteCampaign.isPending}
+            />
+
+            <InviteModal
+              open={showInviteModal}
+              campaignId={campaignId}
+              onClose={() => setShowInviteModal(false)}
             />
           </>
         )}
@@ -935,6 +950,134 @@ function LootTab({ loot, isPending }: LootTabProps) {
             )}
           </tbody>
         </table>
+      </div>
+    </div>
+  );
+}
+
+// ─── Invite modal ─────────────────────────────────────────────────────────────
+
+interface InviteModalProps {
+  open: boolean;
+  campaignId: string;
+  onClose: () => void;
+}
+
+function InviteModal({ open, campaignId, onClose }: InviteModalProps) {
+  const createInvitation = useCreateInvitation(campaignId);
+  const [inviteLink, setInviteLink] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<CreateInvitationInput>({
+    resolver: zodResolver(createInvitationSchema),
+  });
+
+  function handleClose() {
+    reset();
+    setInviteLink(null);
+    setCopied(false);
+    createInvitation.reset();
+    onClose();
+  }
+
+  function copyLink() {
+    if (!inviteLink) return;
+    void navigator.clipboard.writeText(inviteLink).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
+
+  const onSubmit = (data: CreateInvitationInput) => {
+    createInvitation.mutate(data, {
+      onSuccess: (res) => {
+        const token = res.data.token;
+        const link = `${window.location.origin}/invitations/${token}`;
+        setInviteLink(link);
+      },
+    });
+  };
+
+  const serverError =
+    createInvitation.error instanceof ApiError
+      ? createInvitation.error.message
+      : null;
+
+  if (!open) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div className="w-full max-w-sm rounded-lg border-2 border-primary/25 bg-surface p-6 shadow-xl ring-1 ring-inset ring-primary/10">
+        <h2 className="mb-4 text-base font-semibold text-cream">Invite to campaign</h2>
+
+        {inviteLink ? (
+          <div className="flex flex-col gap-4">
+            <p className="text-sm text-muted">
+              Share this link with your hunter. It expires in 7 days.
+            </p>
+            <div className="flex items-center gap-2 rounded-md border border-primary/20 bg-surface-alt px-3 py-2">
+              <span className="min-w-0 flex-1 truncate text-xs text-muted font-mono">
+                {inviteLink}
+              </span>
+              <button
+                onClick={copyLink}
+                className="shrink-0 text-xs font-medium text-primary transition-colors hover:text-primary-light"
+              >
+                {copied ? 'Copied!' : 'Copy'}
+              </button>
+            </div>
+            <Button variant="ghost" size="sm" onClick={handleClose}>
+              Done
+            </Button>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-4">
+            <Field
+              label="Email (optional)"
+              error={errors.email?.message}
+              theme="light"
+            >
+              {(id, hasError, theme) => (
+                <Input
+                  {...register('email')}
+                  id={id}
+                  type="email"
+                  placeholder="friend@example.com"
+                  hasError={hasError}
+                  theme={theme}
+                />
+              )}
+            </Field>
+            <p className="text-xs text-muted">
+              If you enter an email, an invitation will be sent automatically.
+              Leave it blank to generate a link you can share yourself.
+            </p>
+
+            {serverError && (
+              <p role="alert" className="rounded-md border border-ember/30 bg-ember/10 px-3 py-2 text-sm text-ember">
+                {serverError}
+              </p>
+            )}
+
+            <div className="flex items-center gap-3">
+              <Button type="submit" size="sm" loading={createInvitation.isPending}>
+                Generate invite
+              </Button>
+              <Button type="button" variant="ghost" size="sm" onClick={handleClose}>
+                Cancel
+              </Button>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );

@@ -13,6 +13,7 @@ import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as InvitationsTokenRouteImport } from './routes/invitations/$token'
 import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedQuestsIndexRouteImport } from './routes/_authenticated/quests/index'
@@ -50,6 +51,11 @@ const AuthenticatedRoute = AuthenticatedRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InvitationsTokenRoute = InvitationsTokenRouteImport.update({
+  id: '/invitations/$token',
+  path: '/invitations/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthCallbackRoute = AuthCallbackRouteImport.update({
@@ -169,6 +175,7 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/callback': typeof AuthCallbackRoute
+  '/invitations/$token': typeof InvitationsTokenRoute
   '/campaigns/$campaignId': typeof AuthenticatedCampaignsCampaignIdRouteWithChildren
   '/hunters/$hunterId': typeof AuthenticatedHuntersHunterIdRoute
   '/maps/$mapId': typeof AuthenticatedMapsMapIdRoute
@@ -193,6 +200,7 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/callback': typeof AuthCallbackRoute
+  '/invitations/$token': typeof InvitationsTokenRoute
   '/hunters/$hunterId': typeof AuthenticatedHuntersHunterIdRoute
   '/maps/$mapId': typeof AuthenticatedMapsMapIdRoute
   '/campaigns': typeof AuthenticatedCampaignsIndexRoute
@@ -218,6 +226,7 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/callback': typeof AuthCallbackRoute
+  '/invitations/$token': typeof InvitationsTokenRoute
   '/_authenticated/campaigns/$campaignId': typeof AuthenticatedCampaignsCampaignIdRouteWithChildren
   '/_authenticated/hunters/$hunterId': typeof AuthenticatedHuntersHunterIdRoute
   '/_authenticated/maps/$mapId': typeof AuthenticatedMapsMapIdRoute
@@ -244,6 +253,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/dashboard'
     | '/auth/callback'
+    | '/invitations/$token'
     | '/campaigns/$campaignId'
     | '/hunters/$hunterId'
     | '/maps/$mapId'
@@ -268,6 +278,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/dashboard'
     | '/auth/callback'
+    | '/invitations/$token'
     | '/hunters/$hunterId'
     | '/maps/$mapId'
     | '/campaigns'
@@ -292,6 +303,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/_authenticated/dashboard'
     | '/auth/callback'
+    | '/invitations/$token'
     | '/_authenticated/campaigns/$campaignId'
     | '/_authenticated/hunters/$hunterId'
     | '/_authenticated/maps/$mapId'
@@ -317,6 +329,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
+  InvitationsTokenRoute: typeof InvitationsTokenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -347,6 +360,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/invitations/$token': {
+      id: '/invitations/$token'
+      path: '/invitations/$token'
+      fullPath: '/invitations/$token'
+      preLoaderRoute: typeof InvitationsTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/callback': {
@@ -559,6 +579,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
   AuthCallbackRoute: AuthCallbackRoute,
+  InvitationsTokenRoute: InvitationsTokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

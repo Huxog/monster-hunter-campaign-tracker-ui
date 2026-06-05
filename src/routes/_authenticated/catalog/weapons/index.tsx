@@ -22,7 +22,7 @@ import {
 import { useAuthStore } from '../../../../features/auth/store';
 import { Button } from '../../../../shared/components/Button';
 import { Badge } from '../../../../shared/components/Badge';
-import { Field, Input } from '../../../../shared/components/Field';
+import { Field, Input, Select } from '../../../../shared/components/Field';
 import { SearchBar } from '../../../../shared/components/SearchBar';
 import { Pagination } from '../../../../shared/components/Pagination';
 import { ElementIcon } from '../../../../shared/components/ElementIcon';
@@ -101,129 +101,111 @@ function WeaponsPage() {
         </div>
       )}
 
-      {/* Search */}
-      <div className="mb-4">
-        <SearchBar value={search} onChange={setSearch} placeholder="Search weapons…" />
-      </div>
-
-      {/* Filters */}
-      <div className="mb-5 flex flex-wrap gap-3">
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-medium text-muted">Class:</span>
-          <div className="flex flex-wrap gap-1.5">
-            <FilterChip
-              label="All"
-              active={!weaponClass}
-              onClick={() => setFilter('class', undefined)}
-            />
-            {WEAPON_CLASSES.map((c) => (
-              <FilterChip
-                key={c}
-                label={
-                  <span className="flex items-center gap-1">
-                    <WeaponClassIcon weaponClass={c} className="h-3.5 w-3.5" />
-                    {c}
-                  </span>
-                }
-                active={weaponClass === c}
-                onClick={() => setFilter('class', c)}
-              />
-            ))}
+      {/* Search + Filters — fixed at bottom on mobile, normal flow on desktop */}
+      <div className="fixed bottom-0 left-0 right-0 z-10 border-t border-primary/15 bg-background lg:static lg:mb-5 lg:border-0 lg:bg-transparent">
+        <div className="mx-auto max-w-4xl flex flex-col gap-4 px-4 pb-4 pt-3 lg:px-0 lg:pb-0 lg:pt-0">
+          <SearchBar value={search} onChange={setSearch} placeholder="Search weapons…" />
+          <div className="flex flex-wrap gap-4">
+            <div className="flex items-center gap-2">
+              <span className="shrink-0 text-xs font-medium text-muted">Class</span>
+              <Select
+                value={weaponClass ?? ''}
+                onChange={(e) => setFilter('class', e.target.value || undefined)}
+                className="w-auto"
+              >
+                <option value="">All</option>
+                {WEAPON_CLASSES.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </Select>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="shrink-0 text-xs font-medium text-muted">Element</span>
+              <Select
+                value={element ?? ''}
+                onChange={(e) => setFilter('element', e.target.value || undefined)}
+                className="w-auto"
+              >
+                <option value="">All</option>
+                {ELEMENTAL_TYPES.map((el) => (
+                  <option key={el} value={el}>{el}</option>
+                ))}
+              </Select>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="mb-5 flex flex-wrap gap-1.5">
-        <span className="text-xs font-medium text-muted self-center">Element:</span>
-        <FilterChip
-          label="All"
-          active={!element}
-          onClick={() => setFilter('element', undefined)}
-        />
-        {ELEMENTAL_TYPES.map((el) => (
-          <FilterChip
-            key={el}
-            label={
-              <span className="flex items-center gap-1">
-                <ElementIcon element={el} className="h-3.5 w-3.5" />
-                {el}
-              </span>
-            }
-            active={element === el}
-            onClick={() => setFilter('element', el)}
-          />
-        ))}
-      </div>
+      {/* List + Pagination — bottom padding on mobile clears the fixed bar */}
+      <div className="flex flex-col gap-3 pb-36 lg:pb-0">
+          {isPending && (
+            <div className="flex items-center justify-center py-20">
+              <LoadingSpinner />
+            </div>
+          )}
 
-      {isPending && (
-        <div className="flex items-center justify-center py-20">
-          <LoadingSpinner />
-        </div>
-      )}
+          {isError && (
+            <div className="rounded-lg border border-ember/30 bg-ember/10 px-4 py-3 text-sm text-ember">
+              Failed to load weapons. Please try again.
+            </div>
+          )}
 
-      {isError && (
-        <div className="rounded-lg border border-ember/30 bg-ember/10 px-4 py-3 text-sm text-ember">
-          Failed to load weapons. Please try again.
-        </div>
-      )}
+          {data && pageItems.length === 0 && !showCreateForm && (
+            <div className="rounded-lg border border-primary/15 bg-surface px-6 py-12 text-center">
+              <p className="text-muted">No weapons yet.</p>
+            </div>
+          )}
 
-      {data && pageItems.length === 0 && !showCreateForm && (
-        <div className="rounded-lg border border-primary/15 bg-surface px-6 py-12 text-center">
-          <p className="text-muted">No weapons yet.</p>
-        </div>
-      )}
+          {data && pageItems.length > 0 && filtered.length === 0 && (
+            <div className="rounded-lg border border-primary/15 bg-surface px-6 py-12 text-center">
+              <p className="text-muted">No weapons match your search.</p>
+            </div>
+          )}
 
-      {data && pageItems.length > 0 && filtered.length === 0 && (
-        <div className="rounded-lg border border-primary/15 bg-surface px-6 py-12 text-center">
-          <p className="text-muted">No weapons match your search.</p>
-        </div>
-      )}
-
-      {data && filtered.length > 0 && (
-        <div className="flex flex-col gap-3">
-          {filtered.map((weapon) => (
-            <Link
-              key={weapon.id}
-              to="/catalog/weapons/$weaponId"
-              params={{ weaponId: weapon.id }}
-              className="group flex items-center gap-4 rounded-lg border border-primary/15 bg-surface p-4 transition-colors hover:border-primary/40 hover:bg-surface-alt"
-            >
-              {weapon.imagePath ? (
-                <img
-                  src={weapon.imagePath}
-                  alt={weapon.name}
-                  className="h-12 w-12 shrink-0 rounded-md object-cover"
-                />
-              ) : (
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-surface-alt">
-                  <svg className="h-6 w-6 text-muted/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
-                  </svg>
-                </div>
-              )}
-              <span className="min-w-0 flex-1 font-semibold text-cream transition-colors group-hover:text-primary">
-                {weapon.name}
-              </span>
-              <div className="flex shrink-0 flex-col items-end gap-1">
-                <span className="flex items-center gap-1 text-xs font-medium text-muted">
-                  <WeaponClassIcon weaponClass={weapon.class} className="h-3.5 w-3.5" />
-                  {weapon.class}
-                </span>
-                {weapon.element !== 'None' && (
-                  <Badge variant="primary">
-                    <span className="flex items-center gap-1">
-                      <ElementIcon element={weapon.element} className="h-3 w-3" />
-                      {weapon.element}
-                    </span>
-                  </Badge>
+          {data && filtered.length > 0 &&
+            filtered.map((weapon) => (
+              <Link
+                key={weapon.id}
+                to="/catalog/weapons/$weaponId"
+                params={{ weaponId: weapon.id }}
+                className="group flex items-center gap-4 rounded-lg border border-primary/15 bg-surface p-4 transition-colors hover:border-primary/40 hover:bg-surface-alt"
+              >
+                {weapon.imagePath ? (
+                  <img
+                    src={weapon.imagePath}
+                    alt={weapon.name}
+                    className="h-12 w-12 shrink-0 rounded-md object-cover"
+                  />
+                ) : (
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-surface-alt">
+                    <svg className="h-6 w-6 text-muted/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
+                    </svg>
+                  </div>
                 )}
-              </div>
-            </Link>
-          ))}
-        </div>
-      )}
+                <span className="min-w-0 flex-1 font-semibold text-cream transition-colors group-hover:text-primary">
+                  {weapon.name}
+                </span>
+                <div className="flex shrink-0 flex-col items-end gap-1">
+                  <span className="flex items-center gap-1 text-xs font-medium text-muted">
+                    <WeaponClassIcon weaponClass={weapon.class} className="h-3.5 w-3.5" />
+                    {weapon.class}
+                  </span>
+                  {weapon.element !== 'None' && (
+                    <Badge variant="primary">
+                      <span className="flex items-center gap-1">
+                        <ElementIcon element={weapon.element} className="h-3 w-3" />
+                        {weapon.element}
+                      </span>
+                    </Badge>
+                  )}
+                </div>
+              </Link>
+            ))
+          }
 
-      {!search && data && <Pagination meta={data.meta} onPageChange={setPage} />}
+          {!search && data && <Pagination meta={data.meta} onPageChange={setPage} />}
+        </div>
     </div>
   );
 }
@@ -437,29 +419,6 @@ function CreateWeaponForm({ onSuccess, onCancel }: CreateWeaponFormProps) {
   );
 }
 
-// ─── Filter chip ──────────────────────────────────────────────────────────────
-
-interface FilterChipProps {
-  label: React.ReactNode;
-  active: boolean;
-  onClick: () => void;
-}
-
-function FilterChip({ label, active, onClick }: FilterChipProps) {
-  return (
-    <button
-      onClick={onClick}
-      className={[
-        'rounded-full px-3 py-1 text-xs font-medium transition-colors',
-        active
-          ? 'bg-primary text-cream'
-          : 'bg-surface-alt border border-primary/20 text-muted hover:border-primary/40 hover:text-cream',
-      ].join(' ')}
-    >
-      {label}
-    </button>
-  );
-}
 
 function LoadingSpinner() {
   return (
